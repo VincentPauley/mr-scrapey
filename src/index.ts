@@ -1,7 +1,16 @@
+import 'dotenv/config'
+import { load } from 'cheerio'
+
 import Add from './add'
+import FetchUrlData from './fetch-url-data'
 
-const projectName: string = 'Mr Scrapey'
+import { Title } from './tag-parsers'
 
-console.log(`it's me, ${projectName}`)
+(async() => {
+  const html = await FetchUrlData(process.env.TEST_URL as string)
+  const $ = load(html as string)
+
+  console.log('LOOK: ', Title($))
+})()
 
 console.log(Add(3,4))
