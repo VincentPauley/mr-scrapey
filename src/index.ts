@@ -3,7 +3,7 @@ import { load } from 'cheerio'
 import Table from 'cli-table'
 
 import FetchUrlData from './fetch-url-data'
-import { MetaContentType, MetaIndexing, MetaIndexingGoogle, Title } from './tag-parsers'
+import { MetaContentType, MetaIndexing, MetaIndexingGoogle, MetaDescription, Title } from './tag-parsers'
 
 const MetaTagTableDefinition = () => {
   return new Table({
@@ -11,29 +11,24 @@ const MetaTagTableDefinition = () => {
   })
 }
 
-(async() => {
-  const html = await FetchUrlData(process.env.TEST_URL as string)
+const MrScrape = async (url: string) => {
+  const html = await FetchUrlData(url as string)
   const $ = load(html as string)
 
-  console.log(`Visited: ${process.env.TEST_URL} @: ${new Date().toLocaleDateString()}`)
+  console.log(`Visited: ${url} @: ${new Date().toLocaleDateString()}`)
   console.log('Title: ', Title($))
   console.log(`\n-Meta Tags-`)
 
   const metaTagTable = MetaTagTableDefinition()
 
-  metaTagTable.push(['ContentType', MetaContentType($) as string])
+  metaTagTable.push(['ContentType', MetaContentType($)])
+  metaTagTable.push(['Description', MetaDescription($)])
   metaTagTable.push(['Indexing', MetaIndexing($)])
   metaTagTable.push(['Google Indexing', MetaIndexingGoogle($)])
 
   console.log(metaTagTable.toString())
-})()
+}
 
-const table = new Table({
-  head: ['Property', 'Value']
+process.env.TEST_URL?.split('|').forEach(url => {
+  MrScrape(url)
 })
-
-// table.push(['Blackhawks', 'Win'])
-// table.push(['Blues', 'Lose'])
-
-// console.log(table.toString())
-
