@@ -1,7 +1,7 @@
 import type { CheerioAPI } from 'cheerio'
 
 const Title = ($: CheerioAPI) => {
-  return $('title').text()
+  return $('meta[property="og:title"]').attr('contents') || $('title').text()
 }
 
 export default Title
