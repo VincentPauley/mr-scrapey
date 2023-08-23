@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import { load } from 'cheerio'
 import Table from 'cli-table'
+import cfonts from 'cfonts'
 
 import FetchUrlData from './fetch-url-data'
 import { MetaContentType, MetaIndexing, MetaIndexingGoogle, MetaDescription, Title } from './tag-parsers'
@@ -28,7 +29,14 @@ const MrScrape = async (url: string) => {
 
   console.log(metaTagTable.toString())
 }
-
-process.env.TEST_URL?.split('|').forEach(url => {
-  MrScrape(url)
+cfonts.say('Mr Scrapey Go!', {
+  // colors: ['yellow']
+  gradient: ['yellow', '#55ff55']
 })
+
+setTimeout(() => {
+  process.env.TEST_URL?.split('|').forEach(url => {  
+    MrScrape(url)
+  })
+}, 2000)
+
