@@ -2,7 +2,7 @@ import 'dotenv/config'
 import { load } from 'cheerio'
 
 import FetchUrlData from './fetch-url-data'
-import { MetaContentType, MetaIndexing, Title } from './tag-parsers'
+import { MetaContentType, MetaIndexing, MetaIndexingGoogle, Title } from './tag-parsers'
 
 (async() => {
   const html = await FetchUrlData(process.env.TEST_URL as string)
@@ -13,4 +13,5 @@ import { MetaContentType, MetaIndexing, Title } from './tag-parsers'
   console.log(`\n-Meta Tags-`)
   console.log('Meta - "ContentType": ', MetaContentType($))
   console.log('Meta - "Indexing": ', MetaIndexing($))
+  console.log('Meta - "Google Indexing": ', MetaIndexingGoogle($))
 })()
